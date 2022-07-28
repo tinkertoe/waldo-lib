@@ -3,13 +3,31 @@
   "version": "1.0.1",
   "author": "tinkertoe",
   "license": "GPL-3.0-only",
+  "keywords": [ "cv", "opencv", "template matching", "image search" ],
+  "homepage": "https://github.com/tinkertoe/templatematcher.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinkertoe/templatematcher.js"
+  },
+  "bugs": {
+    "url": "https://github.com/tinkertoe/templatematcher.js/issues"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "./package.json",
+    "./dist",
+    "./README.md",
+    "./LICENSE.txt"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "docs": "typedoc ./src/index.ts",
     "prepublishOnly": "jest && tsc && typedoc src/index.ts"
+  },
+  "dependencies": {
+    "gpu.js": "^2.15.2"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
@@ -18,14 +36,5 @@
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.9",
     "typescript": "^4.7.4"
-  },
-  "dependencies": {
-    "gpu.js": "^2.15.2"
-  },
-  "files": [
-    "./package.json",
-    "./dist",
-    "./README.md",
-    "./LICENSE.txt"
-  ]
+  }
 }
