@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`highestSimilarity 1`] = `
+Object {
+  "allSimilarities": Float32Array [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+  ],
+  "averageSimilarity": 100,
+  "location": Object {
+    "x": 1,
+    "y": 9,
+  },
+}
+`;
