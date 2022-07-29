@@ -1,6 +1,6 @@
-# templatematcher.js
+# waldo.js
 
-[![npm version](https://badge.fury.io/js/templatematcher.js.svg)](https://badge.fury.io/js/templatematcher.js)
+[![npm version](https://badge.fury.io/js/waldo.js.svg)](https://badge.fury.io/js/waldo.js)
 
 Javascript library for fast and simple template matching without weird opencv bindings!
 
@@ -11,13 +11,13 @@ Javascript library for fast and simple template matching without weird opencv bi
 # Quickstart
 
 ```bash
-$ npm install templatematcher.js
+$ npm install waldo.js
 ```
 
 ```typescript
-import { TemplateMatcher, ImageData, Match } from 'templatematcher.js'
+import { Waldo, ImageData, Match } from 'waldo.js'
 
-const tm = TemplateMatcher()
+const waldo = Waldo()
 
 const image: ImageData = {
   data: Uint8ClampedArray.from([
@@ -37,7 +37,7 @@ const template: ImageData = {
   height: 1
 }
 
-tm.findHighest(image, template)
+waldo.findHighest(image, template)
   .then((match: Match) => {
     console.log(match)
   })
@@ -56,4 +56,4 @@ tm.findHighest(image, template)
 The libary is designed to work with data in the [format used by the Canvas Web API](https://developer.mozilla.org/en-US/docs/Web/API/ImageData). For now just look at guides for loading that.
 
 # Docs
-The full API Documentation can be found under [https://tinkertoe.github.io/templatematcher.js](https://tinkertoe.github.io/templatematcher.js)
+The full API Documentation can be found under [https://tinkertoe.github.io/waldo.js](https://tinkertoe.github.io/waldo.js)

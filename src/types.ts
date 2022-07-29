@@ -15,4 +15,3 @@ export interface ImageData {
   width: number,
   height: number
 }
-

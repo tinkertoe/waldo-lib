@@ -1,16 +1,17 @@
 {
-  "name": "templatematcher.js",
-  "version": "1.0.1",
+  "name": "waldo.js",
+  "version": "1.0.3",
   "author": "tinkertoe",
   "license": "GPL-3.0-only",
+  "description": "Javascript library for fast and simple template matching without weird opencv bindings",
   "keywords": [ "cv", "opencv", "template matching", "image search" ],
-  "homepage": "https://github.com/tinkertoe/templatematcher.js",
+  "homepage": "https://github.com/tinkertoe/waldo.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tinkertoe/templatematcher.js"
+    "url": "https://github.com/tinkertoe/waldo.js"
   },
   "bugs": {
-    "url": "https://github.com/tinkertoe/templatematcher.js/issues"
+    "url": "https://github.com/tinkertoe/waldo.js/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
