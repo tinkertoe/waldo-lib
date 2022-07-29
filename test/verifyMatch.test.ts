@@ -1,11 +1,10 @@
-import { TemplateMatcher } from '../src/index'
-import { Match } from '../src/types'
+import { Waldo, Match } from '../src/'
 import { image, template } from './assets/sampleImageData'
 
 test('verifyMatch', async () => {
-  const tm = new TemplateMatcher()
+  const waldo = new Waldo()
 
-  const validResult = await tm.highestSimilarity(image, template)
+  const validResult = await waldo.highestSimilarity(image, template)
 
   const falseResult: Match = {
     averageSimilarity: 100,
@@ -13,8 +12,8 @@ test('verifyMatch', async () => {
     allSimilarities: [ 100, 100, 100, 100, 100, 100 ]
   }
 
-  expect(await tm.verifyMatch(image, template, validResult)).toBe(true)
-  expect(await tm.verifyMatch(image, template, falseResult)).toBe(false)
+  expect(await waldo.verifyMatch(image, template, validResult)).toBe(true)
+  expect(await waldo.verifyMatch(image, template, falseResult)).toBe(false)
 
-  await tm.destroy()
+  await waldo.destroy()
 })
