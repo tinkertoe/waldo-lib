@@ -1,5 +1,7 @@
 # templatematcher.js
 
+[![npm version](https://badge.fury.io/js/templatematcher.js.svg)](https://badge.fury.io/js/templatematcher.js)
+
 Javascript library for fast and simple template matching without weird opencv bindings!
 
 ## What is template matching?
@@ -7,6 +9,10 @@ Javascript library for fast and simple template matching without weird opencv bi
 > "Template matching is a technique in digital image processing for finding small parts of an image which match a template image." - [wikipedia.org](https://en.wikipedia.org/w/index.php?title=Template_matching&oldid=1073414135)
 
 # Quickstart
+
+```bash
+$ npm install templatematcher.js
+```
 
 ```typescript
 import { TemplateMatcher, ImageData, Match } from 'templatematcher.js'
