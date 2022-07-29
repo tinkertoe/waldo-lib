@@ -3,7 +3,7 @@ import { Match, ImageData } from './types'
 
 export * from './types'
 
-export default class Waldo {
+export class Waldo {
   private gpu: GPU
   private computeSimilarities: IKernelRunShortcut
   private computeAverageSimilarities: IKernelRunShortcut
