@@ -1,6 +1,6 @@
-# waldo-cv
+# waldo-lib
 
-[![npm version](https://badge.fury.io/js/waldo-cv.svg)](https://badge.fury.io/js/waldo-cv)
+[![npm version](https://badge.fury.io/js/waldo-lib.svg)](https://badge.fury.io/js/waldo-lib)
 
 Javascript library for fast and simple template matching without weird opencv bindings!
 
@@ -11,11 +11,11 @@ Javascript library for fast and simple template matching without weird opencv bi
 # Quickstart
 
 ```bash
-$ npm install waldo-cv
+$ npm install waldo-lib
 ```
 
 ```typescript
-import { Waldo, ImageData, Match } from 'waldo-cv'
+import { Waldo, ImageData, Match } from 'waldo-lib'
 
 const waldo = Waldo()
 
@@ -56,4 +56,4 @@ waldo.findHighest(image, template)
 The libary is designed to work with data in the [format used by the Canvas Web API](https://developer.mozilla.org/en-US/docs/Web/API/ImageData). For now just look at guides for loading that.
 
 # Docs
-The full API Documentation can be found under [https://tinkertoe.github.io/waldo-cv](https://tinkertoe.github.io/waldo-cv)
+The full API Documentation can be found under [https://tinkertoe.github.io/waldo-lib](https://tinkertoe.github.io/waldo-lib)

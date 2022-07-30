@@ -1,17 +1,17 @@
 {
-  "name": "waldo-cv",
+  "name": "waldo-lib",
   "version": "1.0.3",
   "author": "tinkertoe",
   "license": "GPL-3.0-only",
   "description": "Javascript library for fast and simple template matching without weird opencv bindings",
   "keywords": [ "cv", "opencv", "template matching", "image search" ],
-  "homepage": "https://github.com/tinkertoe/waldo-cv",
+  "homepage": "https://github.com/tinkertoe/waldo-lib",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tinkertoe/waldo-cv"
+    "url": "https://github.com/tinkertoe/waldo-lib"
   },
   "bugs": {
-    "url": "https://github.com/tinkertoe/waldo-cv/issues"
+    "url": "https://github.com/tinkertoe/waldo-lib/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
