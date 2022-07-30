@@ -17,7 +17,7 @@ $ npm install waldo-lib
 ```typescript
 import { Waldo, ImageData, Match } from 'waldo-lib'
 
-const waldo = Waldo()
+const waldo = new Waldo()
 
 const image: ImageData = {
   data: Uint8ClampedArray.from([
@@ -31,13 +31,14 @@ const image: ImageData = {
 
 const template: ImageData = {
   data: Uint8ClampedArray.from([
-    255,255,255,255
+    0,0,0,255,  0,0,0,255,
+    0,0,0,255,  255,255,255,255
   ]),
-  width: 1,
-  height: 1
+  width: 2,
+  height: 2
 }
 
-waldo.findHighest(image, template)
+waldo.highestSimilarity(image, template)
   .then((match: Match) => {
     console.log(match)
   })
