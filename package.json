@@ -45,9 +45,9 @@
     "prepublishOnly": "jest && typedoc src/index.ts && parcel build"
   },
   "dependencies": {
-    "browser-or-node": "^2.0.0",
     "gl": "^5.0.3",
-    "gpu.js": "^2.15.2"
+    "gpu.js": "^2.15.2",
+    "twgl.js": "^4.24.0"
   },
   "devDependencies": {
     "@parcel/packager-ts": "2.6.2",
