@@ -5,6 +5,7 @@ import {
   setBuffersAndAttributes,
   drawBufferInfo,
   createProgramInfoFromProgram,
+  setUniforms
 } from 'twgl.js'
 
 import { resizeContext, createProgramFromSource, vertShaderSource } from './utils'
@@ -18,16 +19,21 @@ export class ComputeSimilarities {
     const program = createProgramFromSource(gl, vertShaderSource, `
       precision mediump float;
 
+      uniform vec2 resolution;
+
       void main() {
-        gl_FragColor = vec4(0.5, 0.5, 0.5, 0.5);
+        vec2 d = gl_FragCoord.xy / resolution.xy;
+        
+        gl_FragColor = vec4(d, 1.0, 1.0);
       }
     `)
     
     const programInfo = createProgramInfoFromProgram(gl, program)
-
     const bufferInfo = createBufferInfoFromArrays(gl, {
       position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0]
     })
+
+    setBuffersAndAttributes(gl, programInfo, bufferInfo)
 
     this.gl = gl
     this.programInfo = programInfo
@@ -35,12 +41,19 @@ export class ComputeSimilarities {
   }
 
   public run(width: number, height: number) {
+    width = Math.round(width)
+    height = Math.round(height)
+
     resizeContext(this.gl, width, height)
     this.gl.useProgram(this.programInfo.program)
-    setBuffersAndAttributes(this.gl, this.programInfo, this.bufferInfo)
 
-    // uniforms
+    // set uniforms
+    setUniforms(this.programInfo, {
+      resolution: [ width, height ]
+    })
 
+
+    // render
     drawBufferInfo(this.gl, this.bufferInfo)
 
     const pixels = new Uint8Array(width*height*4)

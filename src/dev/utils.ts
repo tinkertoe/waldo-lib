@@ -1,11 +1,4 @@
 export function resizeContext(gl: WebGLRenderingContext, width: number, height: number) {
-  // if (width >= gl.MAX_TEXTURE_SIZE || height >= gl.MAX_TEXTURE_SIZE) {
-  //   throw new Error(`Maximum WebGL texture size exceeded: ${gl.MAX_TEXTURE_SIZE}`)
-  // }
-
-  width = Math.round(width)
-  height = Math.round(height)
-
   gl.getExtension('STACKGL_resize_drawingbuffer')?.resize(width, height)
   gl.viewport(0, 0, width, height)
   gl.clearColor(0, 0, 0, 0)
@@ -44,10 +37,4 @@ export function createProgramFromSource(gl: WebGLRenderingContext, vertShaderSou
   return program
 }
 
-export const vertShaderSource = `
-  attribute vec4 position;
-
-  void main() {
-    gl_Position = position;
-  }
-`
+export const vertShaderSource = `attribute vec4 position; void main() { gl_Position = position; }`

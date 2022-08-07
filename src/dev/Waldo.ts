@@ -8,11 +8,9 @@ export class Waldo {
   constructor() {
     this.gl = WebGL(1, 1, { depth: false })
     this.computeSimilarities = new ComputeSimilarities(this.gl)
-
-    console.log(this.gl.MAX_TEXTURE_SIZE)
   }
 
   public test() {
-    this.computeSimilarities.run(10000, 10000)
+    this.computeSimilarities.run(2, 2)
   }
 }
