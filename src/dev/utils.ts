@@ -44,7 +44,7 @@ export function createProgramFromSource(gl: WebGLRenderingContext, vertShaderSou
   return program
 }
 
-export const vertShader = `
+export const vertShaderSource = `
   attribute vec4 position;
 
   void main() {

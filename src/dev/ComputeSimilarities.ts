@@ -7,7 +7,7 @@ import {
   createProgramInfoFromProgram,
 } from 'twgl.js'
 
-import { resizeContext, createProgramFromSource, vertShader } from './utils'
+import { resizeContext, createProgramFromSource, vertShaderSource } from './utils'
 
 export class ComputeSimilarities {
   private gl: WebGLRenderingContext
@@ -15,7 +15,7 @@ export class ComputeSimilarities {
   private bufferInfo: BufferInfo
 
   constructor(gl: WebGLRenderingContext) {
-    const program = createProgramFromSource(gl, vertShader, `
+    const program = createProgramFromSource(gl, vertShaderSource, `
       precision mediump float;
 
       void main() {
