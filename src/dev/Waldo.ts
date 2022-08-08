@@ -11,6 +11,23 @@ export class Waldo {
   }
 
   public test() {
-    this.computeSimilarities.run(2, 2)
+    this.computeSimilarities.run(
+      {
+        data: Uint8ClampedArray.from([
+          255, 255, 255, 255,   255, 255, 255, 255,  255, 255, 255, 255,
+          255, 255, 255, 255,   0, 0, 0, 0,          255, 255, 255, 255,
+          255, 255, 255, 255,   255, 255, 255, 255,  255, 255, 255, 255,
+        ]),
+        width: 3,
+        height: 3
+      },
+      {
+        data: Uint8ClampedArray.from([
+          0, 0, 0, 0
+        ]),
+        width: 1,
+        height: 1
+      }
+    )
   }
 }
