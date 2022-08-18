@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/tinkertoe/waldo-lib/issues"
   },
-  "source": "src/index.ts",
+  "source": "src/dev/Waldo.ts",
   "main": "dist/main.js",
   "module": "dist/module.js",
   "browser": "dist/browser/index.js",

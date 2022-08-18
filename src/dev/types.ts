@@ -3,3 +3,9 @@ export interface ImageData {
   width: number,
   height: number
 }
+
+export interface Texture {
+  texture: WebGLTexture,
+  width: number,
+  height: number
+}
