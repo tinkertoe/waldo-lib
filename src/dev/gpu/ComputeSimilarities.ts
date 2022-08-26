@@ -56,6 +56,7 @@ export class ComputeSimilarities extends Program {
     this.gl.deleteFramebuffer(framebuffer)
     
     this.gl.useProgram(null) // Unload program
+    resizeContext(this.gl, 1, 1)
 
     return {
       texture: outputTexture,

@@ -54,6 +54,7 @@ export class AverageSimilarities extends Program {
 
     this.gl.deleteTexture(similarities.texture)
     this.gl.useProgram(null) // Unload program
+    resizeContext(this.gl, 1, 1)
 
     return {
       texture: outputTexture,
