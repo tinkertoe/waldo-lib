@@ -1,7 +1,6 @@
 import {
   ProgramInfo,
   BufferInfo,
-  TextureOptions,
   createProgramInfoFromProgram,
   createBufferInfoFromArrays,
   setBuffersAndAttributes,

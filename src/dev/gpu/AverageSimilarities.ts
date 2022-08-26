@@ -16,20 +16,20 @@ export class AverageSimilarities extends Program {
     this.gl.useProgram(this.programInfo.program)
 
     // Calculate output dimensions
-    const [ outputWidth, outputHeight ] = [
-      Math.floor(similarities.dimensions.w  / templateSize.w),
-      Math.floor(similarities.dimensions.h / templateSize.h)
-    ]
+    const outputDimensions: Dimensions = {
+      w: Math.floor(similarities.dimensions.w / templateSize.w),
+      h: Math.floor(similarities.dimensions.h / templateSize.h)
+    }
 
-    resizeContext(this.gl, outputWidth, outputHeight)
+    resizeContext(this.gl, outputDimensions.w, outputDimensions.h)
 
     // Setup output texture
 
     const framebuffer = this.gl.createFramebuffer() as WebGLFramebuffer
     const outputTexture = createTexture(this.gl, {
       ...commonTextureOptions(this.gl),
-      width: outputWidth,
-      height: outputHeight,
+      width: outputDimensions.w,
+      height: outputDimensions.h,
     })
 
     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, framebuffer)
@@ -58,24 +58,7 @@ export class AverageSimilarities extends Program {
 
     return {
       texture: outputTexture,
-      dimensions: {
-        w: outputWidth,
-        h: outputHeight
-      }
+      dimensions: outputDimensions
     }
-
-    // const pixels = new Uint8Array(outputWidth*outputHeight*4)
-    // this.gl.readPixels(0, 0, outputWidth, outputHeight, this.gl.RGBA, this.gl.UNSIGNED_BYTE, pixels)
-
-    // let buffer = ''
-    // for (let i = 0; i < pixels.length; i++) {
-    //   if(i%(outputWidth*4)==0) {
-    //     buffer += '\n'
-    //   }
-    //   if (i%4==0) {
-    //     buffer += pixels[i].toString() + ', '
-    //   }
-    // }
-    // console.log(buffer)
   }
 }

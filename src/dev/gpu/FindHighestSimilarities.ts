@@ -1,24 +1,24 @@
-import { createTexture, setUniforms, drawBufferInfo } from 'twgl.js'
+import { createTexture, drawBufferInfo, setUniforms } from 'twgl.js'
 import { Program } from './Program'
+import { Dimensions, WaldoTexture } from '../types'
 import { commonTextureOptions, resizeContext } from './utils'
-import { WaldoTexture, Region, Dimensions } from '../types'
 
 import { readFileSync } from 'fs'
 import { join as joinPaths } from 'path'
-const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/computeSimilarities.fs'), 'utf8')
+const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/findHighestSimilarities.fs'), 'utf8')
 
-export class ComputeSimilarities extends Program {
+export class FindHighestSimilarities extends Program {
   constructor(gl: WebGLRenderingContext) {
     super(gl, fragShaderSource)
   }
 
-  public run(image: WaldoTexture, template: WaldoTexture, processingRegion: Region): WaldoTexture {
+  public run(averageSimilarites: WaldoTexture): WaldoTexture {
     this.gl.useProgram(this.programInfo.program)
 
     // Calculate output dimensions
     const outputDimensions: Dimensions = {
-      w: Math.floor(processingRegion.dimensions.w * template.dimensions.w),
-      h: Math.floor(processingRegion.dimensions.h * template.dimensions.h)
+      w: 1,
+      h: Math.floor(averageSimilarites.dimensions.h)
     }
 
     resizeContext(this.gl, outputDimensions.w, outputDimensions.h)
@@ -29,7 +29,7 @@ export class ComputeSimilarities extends Program {
     const outputTexture = createTexture(this.gl, {
       ...commonTextureOptions(this.gl),
       width: outputDimensions.w,
-      height: outputDimensions.h
+      height: outputDimensions.h,
     })
 
     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, framebuffer)
@@ -37,14 +37,10 @@ export class ComputeSimilarities extends Program {
     this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, outputTexture, 0) // Attatch output texture to framebuffer
     this.gl.bindTexture(this.gl.TEXTURE_2D, null) // Unbind output texture
 
-
     // Set shader inputs
     setUniforms(this.programInfo, {
-      u_image: image.texture,
-      u_template: template.texture,
-      u_imageDimensions: [ image.dimensions.w, image.dimensions.h ],
-      u_templateDimensions: [ template.dimensions.w, template.dimensions.h ],
-      u_processingRegionOrigin: [ processingRegion.origin.x, processingRegion.origin.y ]
+      u_averageSimilarities: averageSimilarites.texture,
+      u_averageSimilaritiesDimensions: [ averageSimilarites.dimensions.w, averageSimilarites.dimensions.h ]
     })
 
     // Render to output texture
@@ -54,7 +50,8 @@ export class ComputeSimilarities extends Program {
 
     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null) // Unbind framebuffer
     this.gl.deleteFramebuffer(framebuffer)
-    
+
+    this.gl.deleteTexture(averageSimilarites.texture)
     this.gl.useProgram(null) // Unload program
     resizeContext(this.gl, 1, 1)
 

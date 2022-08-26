@@ -27,5 +27,11 @@ export interface Region {
 export interface Chunk {
   region: Region,
   computeSimilaritiesResult?: WaldoTexture,
-  averageSimilaritiesResult?: WaldoTexture
+  computeSimilaritiesResultDebug?: WaldoImageData,
+  averageSimilaritiesResult?: WaldoTexture,
+  averageSimilaritiesResultDebug?: WaldoImageData
+  findHighestSimilaritiesResult?: WaldoTexture,
+  findHighestSimilaritiesDebug?: WaldoImageData,
+  findHighestSimilarityResult?: WaldoTexture,
+  findHighestSimilarityDebug?: WaldoImageData
 }

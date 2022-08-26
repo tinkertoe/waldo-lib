@@ -1,4 +1,4 @@
-import { Chunk, Dimensions, Point, Region, WaldoTexture, WaldoImageData } from '../types'
+import { Chunk, Dimensions, Point, WaldoTexture, WaldoImageData } from '../types'
 import { createTexture as twglCreateTexture, TextureOptions } from 'twgl.js'
 
 export function resizeContext(gl: WebGLRenderingContext, width: number, height: number) {
@@ -105,6 +105,19 @@ export function createWaldoTexture(gl: WebGLRenderingContext, imageData: WaldoIm
       h: imageData.height
     }
   }
+}
+
+export function stringifyImageData(imageData: WaldoImageData): string {
+  let buffer = ''
+  for (let i = 0; i < imageData.data.length; i++) {
+    if (i%(imageData.width*4)==0) {
+      buffer += '\n'
+    }
+    if (true) {
+      buffer += imageData.data[i].toString() + ', '
+    }
+  }
+  return buffer
 }
 
 export const vertShaderSource = `attribute vec4 position; void main() { gl_Position = position; }`

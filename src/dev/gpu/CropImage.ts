@@ -1,7 +1,7 @@
-import { drawBufferInfo, setUniforms } from 'twgl.js'
+import { createTexture, drawBufferInfo, setUniforms } from 'twgl.js'
 import { Program } from './Program'
-import { resizeContext, createWaldoTexture } from './utils'
-import { Region, WaldoImageData } from '../types'
+import { resizeContext, createWaldoTexture, commonTextureOptions } from './utils'
+import { Dimensions, Region, WaldoImageData, WaldoTexture } from '../types'
 
 import { readFileSync } from 'fs'
 import { join as joinPaths } from 'path'
@@ -12,18 +12,33 @@ export class CropImage extends Program {
     super(gl, fragShaderSource)
   }
 
-  public run(imageData: WaldoImageData, region: Region): WaldoImageData {
+  public run(imageData: WaldoImageData, region: Region): WaldoTexture {
     this.gl.useProgram(this.programInfo.program)
 
-    const [ outputWidth, outputHeight ] = [
-      Math.floor(region.dimensions.w),
-      Math.floor(region.dimensions.h)
-    ]
+    // Calculate output dimensions
+    const outputDimensions: Dimensions = {
+      w: Math.floor(region.dimensions.w),
+      h: Math.floor(region.dimensions.h)
+    }
 
-    resizeContext(this.gl, outputWidth, outputHeight)
+    resizeContext(this.gl, outputDimensions.w, outputDimensions.h)
 
     // Create input texture
     const image = createWaldoTexture(this.gl, imageData)
+
+    // Setup output texture
+
+    const framebuffer = this.gl.createFramebuffer() as WebGLFramebuffer
+    const outputTexture = createTexture(this.gl, {
+      ...commonTextureOptions(this.gl),
+      width: outputDimensions.w,
+      height: outputDimensions.h,
+    })
+
+    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, framebuffer)
+    this.gl.bindTexture(this.gl.TEXTURE_2D, outputTexture)
+    this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, outputTexture, 0) // Attatch output texture to framebuffer
+    this.gl.bindTexture(this.gl.TEXTURE_2D, null) // Unbind output texture
 
     // Set shader inputs
     setUniforms(this.programInfo, {
@@ -32,26 +47,21 @@ export class CropImage extends Program {
       u_cropOrigin: [ region.origin.x, region.origin.y ],
     })
 
-    // Render
+    // Render to output texture
     drawBufferInfo(this.gl, this.bufferInfo)
-
-    // Read output
-
-    let pixels = new Uint8Array(outputWidth*outputHeight*4)
-    this.gl.readPixels(0, 0, outputWidth, outputHeight, this.gl.RGBA, this.gl.UNSIGNED_BYTE, pixels)
-
-    const clampedPixels = new Uint8ClampedArray(pixels)
-    pixels = new Uint8Array(0)
     
     // Cleanup
+
+    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null) // Unbind framebuffer
+    this.gl.deleteFramebuffer(framebuffer)
+
     this.gl.deleteTexture(image.texture)
-    this.gl.useProgram(null)
+    this.gl.useProgram(null) // Unload program
     resizeContext(this.gl, 1, 1)
 
     return {
-      data: clampedPixels,
-      width: outputWidth,
-      height: outputHeight
+      texture: outputTexture,
+      dimensions: outputDimensions
     }
   }
 }

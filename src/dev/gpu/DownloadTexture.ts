@@ -1,7 +1,7 @@
 import { drawBufferInfo, setUniforms } from 'twgl.js'
 import { Program } from './Program'
 import { resizeContext } from './utils'
-import { WaldoImageData, WaldoTexture } from '../types'
+import { Dimensions, WaldoImageData, WaldoTexture } from '../types'
 
 import { readFileSync } from 'fs'
 import { join as joinPaths } from 'path'
@@ -15,12 +15,12 @@ export class DownloadTexture extends Program {
   public run(texture: WaldoTexture): WaldoImageData {
     this.gl.useProgram(this.programInfo.program)
 
-    const [ outputWidth, outputHeight ] = [
-      Math.floor(texture.dimensions.w),
-      Math.floor(texture.dimensions.h)
-    ]
+    const outputDimensions: Dimensions = {
+      w: Math.floor(texture.dimensions.w),
+      h: Math.floor(texture.dimensions.h)
+    }
 
-    resizeContext(this.gl, outputWidth, outputHeight)
+    resizeContext(this.gl, outputDimensions.w, outputDimensions.h)
 
     // Set shader inputs
     setUniforms(this.programInfo, {
@@ -33,8 +33,8 @@ export class DownloadTexture extends Program {
 
     // Read output
 
-    let pixels = new Uint8Array(outputWidth*outputHeight*4)
-    this.gl.readPixels(0, 0, outputWidth, outputHeight, this.gl.RGBA, this.gl.UNSIGNED_BYTE, pixels)
+    let pixels = new Uint8Array(outputDimensions.w*outputDimensions.h*4)
+    this.gl.readPixels(0, 0, outputDimensions.w, outputDimensions.h, this.gl.RGBA, this.gl.UNSIGNED_BYTE, pixels)
 
     const clampedPixels = new Uint8ClampedArray(pixels)
     pixels = new Uint8Array(0)
@@ -42,12 +42,12 @@ export class DownloadTexture extends Program {
     // Cleanup
     this.gl.deleteTexture(texture.texture)
     this.gl.useProgram(null)
-    resizeContext(this.gl, 0, 0)
+    resizeContext(this.gl, 1, 1)
 
     return {
       data: clampedPixels,
-      width: outputWidth,
-      height: outputHeight
+      width: outputDimensions.w,
+      height: outputDimensions.h
     }
   }
 }
