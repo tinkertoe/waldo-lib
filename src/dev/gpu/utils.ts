@@ -86,7 +86,6 @@ export function commonTextureOptions(gl: WebGLRenderingContext): TextureOptions 
   return {
     format: gl.RGBA,
     internalFormat: gl.RGBA,
-    type: gl.UNSIGNED_BYTE,
     minMag: gl.NEAREST,
     wrap: gl.CLAMP_TO_EDGE
   }
@@ -97,6 +96,7 @@ export function createWaldoTexture(gl: WebGLRenderingContext, imageData: WaldoIm
     texture: twglCreateTexture(gl, {
       ...commonTextureOptions(gl),
       src: imageData.data,
+      type: gl.UNSIGNED_BYTE,
       width: imageData.width,
       height: imageData.height
     }),

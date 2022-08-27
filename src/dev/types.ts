@@ -1,5 +1,5 @@
 export interface WaldoImageData {
-  data: Uint8ClampedArray,
+  data: Uint8ClampedArray | Float32Array,
   width: number,
   height: number
 }

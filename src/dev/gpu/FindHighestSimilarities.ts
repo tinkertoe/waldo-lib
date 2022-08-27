@@ -28,6 +28,7 @@ export class FindHighestSimilarities extends Program {
     const framebuffer = this.gl.createFramebuffer() as WebGLFramebuffer
     const outputTexture = createTexture(this.gl, {
       ...commonTextureOptions(this.gl),
+      type: this.gl.FLOAT,
       width: outputDimensions.w,
       height: outputDimensions.h,
     })

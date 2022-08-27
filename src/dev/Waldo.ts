@@ -10,10 +10,12 @@ import { WaldoImageData } from './types'
 
 export class Waldo {
   private gl: WebGLRenderingContext
+
   private computeSimilarities: ComputeSimilarities
   private averageSimilarities: AverageSimilarities
   private findHighestSimilarities: FindHighestSimilarities
   private findHighestSimilarity: FindHighestSimilarity
+  
   private downloadTexture: DownloadTexture
 
   constructor() {
@@ -23,10 +25,13 @@ export class Waldo {
       powerPreference: 'high-performance',
       stencil: false
     })
+    this.gl.getExtension('OES_texture_float')
+    
     this.computeSimilarities = new ComputeSimilarities(this.gl)
     this.averageSimilarities = new AverageSimilarities(this.gl)
     this.findHighestSimilarities = new FindHighestSimilarities(this.gl)
     this.findHighestSimilarity = new FindHighestSimilarity(this.gl)
+
     this.downloadTexture = new DownloadTexture(this.gl)
   }
 
@@ -55,5 +60,14 @@ export class Waldo {
       // console.log('findHighestSimilarities', stringifyImageData(chunk.findHighestSimilarityDebug as WaldoImageData))
       console.log('findHighestSimilarity', stringifyImageData(chunk.findHighestSimilarityDebug as WaldoImageData))
     })
+  }
+
+  public destroy() {
+    this.computeSimilarities.destroy()
+    this.averageSimilarities.destroy()
+    this.findHighestSimilarities.destroy()
+    this.findHighestSimilarity.destroy()
+    this.downloadTexture.destroy()
+    this.gl.getExtension('WEBGL_lose_context')?.loseContext()
   }
 }

@@ -31,6 +31,7 @@ export class CropImage extends Program {
     const framebuffer = this.gl.createFramebuffer() as WebGLFramebuffer
     const outputTexture = createTexture(this.gl, {
       ...commonTextureOptions(this.gl),
+      type: this.gl.UNSIGNED_BYTE,
       width: outputDimensions.w,
       height: outputDimensions.h,
     })
