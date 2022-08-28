@@ -1,5 +1,5 @@
 import WebGL from 'gl'
-import { createWaldoTexture, chunk, stringifyImageData } from './gpu/utils'
+import { imageDataToTexture, chunk, stringifyImageData } from './gpu/utils'
 import { AverageSimilarities } from './gpu/AverageSimilarities'
 import { ComputeSimilarities } from './gpu/ComputeSimilarities'
 import { FindHighestSimilarities } from './gpu/FindHighestSimilarities'
@@ -37,8 +37,8 @@ export class Waldo {
 
   public test() {
     // Create textures
-    const image = createWaldoTexture(this.gl, imageData)
-    const template = createWaldoTexture(this.gl, templateData)
+    const image = imageDataToTexture(this.gl, imageData)
+    const template = imageDataToTexture(this.gl, templateData)
 
     const chunks = chunk(image.dimensions, template.dimensions, this.gl.MAX_TEXTURE_SIZE)
 

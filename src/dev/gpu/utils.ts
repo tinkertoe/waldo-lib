@@ -91,7 +91,7 @@ export function commonTextureOptions(gl: WebGLRenderingContext): TextureOptions 
   }
 }
 
-export function createWaldoTexture(gl: WebGLRenderingContext, imageData: WaldoImageData): WaldoTexture {
+export function imageDataToTexture(gl: WebGLRenderingContext, imageData: WaldoImageData): WaldoTexture {
   return {
     texture: twglCreateTexture(gl, {
       ...commonTextureOptions(gl),

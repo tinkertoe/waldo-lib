@@ -13,58 +13,29 @@ export class DownloadTexture extends Program {
   }
 
   public run(texture: WaldoTexture): WaldoImageData {
-    this.gl.useProgram(this.programInfo.program)
-
-    const outputDimensions: Dimensions = {
-      w: Math.floor(texture.dimensions.w),
-      h: Math.floor(texture.dimensions.h)
-    }
-
-    resizeContext(this.gl, outputDimensions.w, outputDimensions.h)
-
-    // Setup output texture
-
-    const framebuffer = this.gl.createFramebuffer() as WebGLFramebuffer
-    const outputTexture = createTexture(this.gl, {
-      ...commonTextureOptions(this.gl),
-      type: this.gl.FLOAT,
-      width: outputDimensions.w,
-      height: outputDimensions.h,
+    this.outputDimensions({
+      w: texture.dimensions.w,
+      h: texture.dimensions.h
     })
 
-    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, framebuffer)
-    this.gl.bindTexture(this.gl.TEXTURE_2D, outputTexture)
-    this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, outputTexture, 0) // Attatch output texture to framebuffer
-    this.gl.bindTexture(this.gl.TEXTURE_2D, null) // Unbind output texture
-
-    // Set shader inputs
-    setUniforms(this.programInfo, {
+    this.render({
       u_texture: texture.texture,
       u_textureDimensions: [ texture.dimensions.w, texture.dimensions.h ]
-    })
-
-    // Render to output texture
-    drawBufferInfo(this.gl, this.bufferInfo)
+    }, false) // Don't cleanup automaticly
 
     // Read output
-
-    const pixels = new Float32Array(outputDimensions.w*outputDimensions.h*4)
-    this.gl.readPixels(0, 0, outputDimensions.w, outputDimensions.h, this.gl.RGBA, this.gl.FLOAT, pixels)
+    const pixels = new Float32Array(this.outputTexture.dimensions.w*this.outputTexture.dimensions.h*4)
+    this.gl.readPixels(0, 0, this.outputTexture.dimensions.w, this.outputTexture.dimensions.h, this.gl.RGBA, this.gl.FLOAT, pixels)
     
     // Cleanup
-
-    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null) // Unbind framebuffer
-    this.gl.deleteFramebuffer(framebuffer)
-
     this.gl.deleteTexture(texture.texture)
-    this.gl.deleteTexture(outputTexture)
-    this.gl.useProgram(null) // Unload program
-    resizeContext(this.gl, 1, 1)
+    this.gl.deleteTexture(this.outputTexture.texture)
+    this.cleanup() // Cleanup after texture readout
 
     return {
       data: pixels,
-      width: outputDimensions.w,
-      height: outputDimensions.h
+      width: this.outputTexture.dimensions.w,
+      height: this.outputTexture.dimensions.h
     }
   }
 }
