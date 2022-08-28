@@ -34,7 +34,6 @@ export interface Chunk {
 
 export interface Match {
   location: Point
-  averageSimilarity: number,
-  allSimilarities?: number[],
+  similarity: number,
   timestamp?: number
 }
