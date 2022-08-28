@@ -107,13 +107,13 @@ export function imageDataToTexture(gl: WebGLRenderingContext, imageData: WaldoIm
   }
 }
 
-export function stringifyImageData(imageData: WaldoImageData): string {
+export function stringifyImageData(imageData: WaldoImageData, includeFullPixel: boolean = false): string {
   let buffer = ''
   for (let i = 0; i < imageData.data.length; i++) {
     if (i%(imageData.width*4)==0) {
       buffer += '\n'
     }
-    if (true) {
+    if ((!includeFullPixel && i%4==0) || includeFullPixel) {
       buffer += imageData.data[i].toString() + ', '
     }
   }

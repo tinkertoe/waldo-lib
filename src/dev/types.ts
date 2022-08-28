@@ -35,3 +35,10 @@ export interface Chunk {
   findHighestSimilarityResult?: WaldoTexture,
   findHighestSimilarityDebug?: WaldoImageData
 }
+
+export interface Match {
+  location: Point
+  averageSimilarity: number,
+  allSimilarities?: number[],
+  timestamp?: number
+}

@@ -9,7 +9,7 @@ void main() {
 
   for(int x = 0; x < int(u_averageSimilaritiesDimensions.x); x++) {
     vec2 texCoord = vec2(x, gl_FragCoord.y);
-    vec4 texel = texture2D(u_averageSimilarities, texCoord/u_averageSimilaritiesDimensions);
+    vec4 texel = texture2D(u_averageSimilarities, (texCoord - vec2(0.25))  / u_averageSimilaritiesDimensions);
     if (texel.r > highestSimilarityValue) {
       highestSimilarityValue = texel.r;
       highestSimilarityXCoord = texCoord.x;

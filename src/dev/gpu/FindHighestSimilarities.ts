@@ -22,7 +22,7 @@ export class FindHighestSimilarities extends Program {
     })
 
     // Cleanup
-    this.gl.deleteTexture(averageSimilarites.texture)
+    // this.gl.deleteTexture(averageSimilarites.texture)
 
     return this.outputTexture
   }

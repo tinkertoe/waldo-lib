@@ -5,8 +5,7 @@ import { ComputeSimilarities } from './gpu/ComputeSimilarities'
 import { FindHighestSimilarities } from './gpu/FindHighestSimilarities'
 import { FindHighestSimilarity } from './gpu/FindHighestSimilarity'
 import { DownloadTexture } from './gpu/DownloadTexture'
-import { image2 as imageData, template2 as templateData } from './sampleData'
-import { WaldoImageData } from './types'
+import { Match, Point, WaldoImageData } from './types'
 
 export class Waldo {
   private gl: WebGLRenderingContext
@@ -35,31 +34,44 @@ export class Waldo {
     this.downloadTexture = new DownloadTexture(this.gl)
   }
 
-  public test() {
+  public highestSimilarity(imageData: WaldoImageData, templateData: WaldoImageData): Match {
     // Create textures
     const image = imageDataToTexture(this.gl, imageData)
     const template = imageDataToTexture(this.gl, templateData)
 
+    // Split image into processing chunks that don't exceed the texture size limitation
     const chunks = chunk(image.dimensions, template.dimensions, this.gl.MAX_TEXTURE_SIZE)
 
+    let highestSimilarityValue = 0
+    let highestSimilarityLocation: Point = { x: 0, y: 0 }
+
+    // Do processing for every chunk
     chunks.forEach(chunk => {
       chunk.computeSimilaritiesResult = this.computeSimilarities.run(image, template, chunk.region)
       chunk.averageSimilaritiesResult = this.averageSimilarities.run(chunk.computeSimilaritiesResult, template.dimensions)
       chunk.findHighestSimilaritiesResult = this.findHighestSimilarities.run(chunk.averageSimilaritiesResult)
       chunk.findHighestSimilarityResult = this.findHighestSimilarity.run(chunk.findHighestSimilaritiesResult)
 
-      // chunk.computeSimilaritiesResultDebug = this.downloadTexture.run(chunk.computeSimilaritiesResult)
-      // chunk.averageSimilaritiesResultDebug = this.downloadTexture.run(chunk.averageSimilaritiesResult)
-      // chunk.findHighestSimilaritiesDebug = this.downloadTexture.run(chunk.findHighestSimilaritiesResult)
-      chunk.findHighestSimilarityDebug = this.downloadTexture.run(chunk.findHighestSimilarityResult)
+      console.log('avgs', stringifyImageData(this.downloadTexture.run(chunk.averageSimilaritiesResult)))
+      console.log('findH', stringifyImageData(this.downloadTexture.run(chunk.findHighestSimilaritiesResult), true))
+
+      const result = this.downloadTexture.run(chunk.findHighestSimilarityResult)
+
+      console.log('findH2', stringifyImageData(result, true))
+
+      if (result.data[0] > highestSimilarityValue) {
+        highestSimilarityValue = result.data[0]
+        highestSimilarityLocation = {
+          x: result.data[1]*chunk.region.dimensions.w+chunk.region.origin.x-1,
+          y: result.data[2]*chunk.region.dimensions.h+chunk.region.origin.y-1
+        }
+      }
     })
 
-    chunks.forEach(chunk => {
-      // console.log('computeSimilarities', stringifyImageData(chunk.computeSimilaritiesResultDebug as WaldoImageData))
-      // console.log('averageSimilarities', stringifyImageData(chunk.averageSimilaritiesResultDebug as WaldoImageData))
-      // console.log('findHighestSimilarities', stringifyImageData(chunk.findHighestSimilarityDebug as WaldoImageData))
-      console.log('findHighestSimilarity', stringifyImageData(chunk.findHighestSimilarityDebug as WaldoImageData))
-    })
+    return {
+      location: highestSimilarityLocation,
+      averageSimilarity: highestSimilarityValue
+    }
   }
 
   public destroy() {
