@@ -19,7 +19,7 @@ export class FindHighestSimilarity extends Program {
     })
 
     // Cleanup
-    // this.gl.deleteTexture(highestSimilarities.texture)
+    this.gl.deleteTexture(highestSimilarities.texture)
 
     return this.outputTexture
   }

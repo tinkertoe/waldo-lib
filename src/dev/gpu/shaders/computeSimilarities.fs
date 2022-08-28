@@ -1,4 +1,4 @@
-precision mediump float;
+precision lowp float;
 
 uniform sampler2D u_image;
 uniform sampler2D u_template;

@@ -52,18 +52,13 @@ export class Waldo {
       chunk.findHighestSimilaritiesResult = this.findHighestSimilarities.run(chunk.averageSimilaritiesResult)
       chunk.findHighestSimilarityResult = this.findHighestSimilarity.run(chunk.findHighestSimilaritiesResult)
 
-      console.log('avgs', stringifyImageData(this.downloadTexture.run(chunk.averageSimilaritiesResult)))
-      console.log('findH', stringifyImageData(this.downloadTexture.run(chunk.findHighestSimilaritiesResult), true))
+      const { data } = this.downloadTexture.run(chunk.findHighestSimilarityResult)
 
-      const result = this.downloadTexture.run(chunk.findHighestSimilarityResult)
-
-      console.log('findH2', stringifyImageData(result, true))
-
-      if (result.data[0] > highestSimilarityValue) {
-        highestSimilarityValue = result.data[0]
+      if (data[0] > highestSimilarityValue) {
+        highestSimilarityValue = data[0]
         highestSimilarityLocation = {
-          x: result.data[1]*chunk.region.dimensions.w+chunk.region.origin.x-1,
-          y: result.data[2]*chunk.region.dimensions.h+chunk.region.origin.y-1
+          x: Math.floor(data[1] * chunk.region.dimensions.w + chunk.region.origin.x - 1),
+          y: Math.floor(data[2] * chunk.region.dimensions.h + chunk.region.origin.y - 1)
         }
       }
     })
