@@ -65,7 +65,7 @@ export class Waldo {
 
     return {
       location: highestSimilarityLocation,
-      averageSimilarity: highestSimilarityValue
+      similarity: highestSimilarityValue
     }
   }
 
