@@ -1,4 +1,3 @@
-import { setUniforms, drawBufferInfo } from 'twgl.js'
 import { Program } from './Program'
 import { WaldoTexture, Region } from '../types'
 

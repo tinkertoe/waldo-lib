@@ -1,6 +1,4 @@
-import { createTexture, setUniforms, drawBufferInfo } from 'twgl.js'
 import { Program } from './Program'
-import { commonTextureOptions, resizeContext } from './utils'
 import { Dimensions, WaldoTexture } from '../types'
 
 import { readFileSync } from 'fs'
