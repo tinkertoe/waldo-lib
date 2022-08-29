@@ -54,11 +54,11 @@ export class Waldo {
 
       const { data } = this.downloadTexture.run(chunk.findHighestSimilarityResult)
 
-      if (data[0] > highestSimilarityValue) {
+      if (data[0] >= highestSimilarityValue) {
         highestSimilarityValue = data[0]
         highestSimilarityLocation = {
-          x: Math.floor(data[1] * chunk.region.dimensions.w + chunk.region.origin.x - 1),
-          y: Math.floor(data[2] * chunk.region.dimensions.h + chunk.region.origin.y - 1)
+          x: Math.floor(data[1] + chunk.region.origin.x),
+          y: Math.floor(data[2] + chunk.region.origin.y)
         }
       }
     })
@@ -67,6 +67,47 @@ export class Waldo {
       location: highestSimilarityLocation,
       similarity: highestSimilarityValue
     }
+  }
+
+  public filteredSimilarities(imageData: WaldoImageData, templateData: WaldoImageData, minSimilarity: number): Match[] {
+    // Create textures
+    const image = imageDataToTexture(this.gl, imageData)
+    const template = imageDataToTexture(this.gl, templateData)
+
+    // Split image into processing chunks that don't exceed the texture size limitation
+    const chunks = chunk(image.dimensions, template.dimensions, this.gl.MAX_TEXTURE_SIZE)
+
+    const matches: Match[] = []
+
+    // Do processing for every chunk
+    chunks.forEach(chunk => {
+      chunk.computeSimilaritiesResult = this.computeSimilarities.run(image, template, chunk.region)
+      chunk.averageSimilaritiesResult = this.averageSimilarities.run(chunk.computeSimilaritiesResult, template.dimensions)
+      chunk.findHighestSimilaritiesResult = this.findHighestSimilarities.run(chunk.averageSimilaritiesResult)
+
+      const { data } = this.downloadTexture.run(chunk.findHighestSimilaritiesResult)
+
+      console.log(stringifyImageData({
+        data,
+        width: chunk.findHighestSimilaritiesResult.dimensions.w,
+        height: chunk.findHighestSimilaritiesResult.dimensions.h
+      }, true))
+
+      for (let i = 0; i < data.length; i = i+4) {
+        if (data[i+0] > minSimilarity) {
+          matches.push({
+            similarity: data[i+0],
+            location: {
+              x: Math.floor(data[i+1] + chunk.region.origin.x),
+              y: Math.floor(i/4 + chunk.region.origin.y)
+            }
+          })
+        }
+      }
+
+    })
+
+    return matches
   }
 
   public destroy() {
