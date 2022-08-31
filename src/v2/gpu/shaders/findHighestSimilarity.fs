@@ -3,6 +3,8 @@ precision lowp float;
 uniform sampler2D u_highestSimilarities;
 uniform vec2 u_highestSimilaritiesDimensions;
 
+// Loop through all the highest similarities per row to find the overall highest similarity
+
 void main() {
   float highestSimilarityValue = 0.0;
   ivec2 highestSimilarityCoord = ivec2(0);

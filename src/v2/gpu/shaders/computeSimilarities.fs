@@ -36,5 +36,5 @@ void main() {
     1.0-abs(imagePixel.a-templatePixel.a)
   );
 
-  gl_FragColor = vec4( (channelSimilarities.r + channelSimilarities.g + channelSimilarities.b + channelSimilarities.a) / 4.0 );
+  gl_FragColor = vec4( (channelSimilarities.r + channelSimilarities.g + channelSimilarities.b + channelSimilarities.a) / 4.0, 0, 0, 0 );
 }

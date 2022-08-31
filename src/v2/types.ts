@@ -26,10 +26,10 @@ export interface Region {
 
 export interface Chunk {
   region: Region,
-  computeSimilaritiesResult?: WaldoTexture,
-  averageSimilaritiesResult?: WaldoTexture,
-  findHighestSimilaritiesResult?: WaldoTexture,
-  findHighestSimilarityResult?: WaldoTexture,
+  computedSimilarities?: WaldoTexture,
+  averagedSimilarities?: WaldoTexture,
+  highestSimilarities?: WaldoTexture,
+  highestSimilarity?: WaldoTexture,
 }
 
 export interface Match {

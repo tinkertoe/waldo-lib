@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/tinkertoe/waldo-lib/issues"
   },
-  "source": "src/dev/Waldo.ts",
+  "source": "src/v2/Waldo.ts",
   "main": "dist/main.js",
   "module": "dist/module.js",
   "browser": "dist/browser/index.js",
@@ -41,8 +41,8 @@
   "scripts": {
     "build": "parcel build",
     "test": "jest",
-    "docs": "typedoc ./src/index.ts",
-    "prepublishOnly": "jest && typedoc src/index.ts && parcel build"
+    "docs": "typedoc ./src/v2/Waldo.ts",
+    "prepublishOnly": "jest && typedoc ./src/v2/Waldo.ts && parcel build"
   },
   "dependencies": {
     "gl": "^5.0.3",
