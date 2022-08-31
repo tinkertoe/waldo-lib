@@ -3,6 +3,8 @@ import * as gpu from './gpu'
 import { imageDataToTexture, chunk } from './gpu/utils'
 import { Chunk, Match, Point, WaldoImageData, WaldoTexture } from './types'
 
+export { WaldoImageData, Match, Point }
+
 export class Waldo {
   private gl: WebGLRenderingContext
 
