@@ -20,7 +20,7 @@
     "url": "https://github.com/tinkertoe/waldo-lib/issues"
   },
 
-  "source": "src/v2/Waldo.ts",
+  "source": "src/v2/index.ts",
 
   "main": "dist/main.js",
   "module": "dist/module.js",

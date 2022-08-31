@@ -87,7 +87,7 @@ export class Waldo {
       const { data } = this.downloadTexture.run(chunk.highestSimilarities as WaldoTexture)
 
       for (let i = 0; i < data.length; i = i+4) {
-        if (data[i+0] > minSimilarity) {
+        if (data[i+0] >= minSimilarity) {
           matches.push({
             similarity: data[i+0],
             location: {

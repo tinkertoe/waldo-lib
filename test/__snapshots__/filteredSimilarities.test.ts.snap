@@ -1,13 +1,137 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`filteredSimilarities 1`] = `
+exports[`filteredSimilarities: result1 1`] = `
 Array [
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 0,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 1,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 2,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 3,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 4,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 5,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 6,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 7,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 8,
+    },
+    "similarity": 0.75,
+  },
   Object {
     "location": Object {
       "x": 1,
       "y": 9,
     },
     "similarity": 1,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 10,
+    },
+    "similarity": 0.75,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 11,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 12,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 13,
+    },
+    "similarity": 0.625,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 14,
+    },
+    "similarity": 0.625,
+  },
+]
+`;
+
+exports[`filteredSimilarities: result2 1`] = `
+Array [
+  Object {
+    "location": Object {
+      "x": 2,
+      "y": 1,
+    },
+    "similarity": 0.5,
+  },
+  Object {
+    "location": Object {
+      "x": 1,
+      "y": 2,
+    },
+    "similarity": 1,
+  },
+  Object {
+    "location": Object {
+      "x": 0,
+      "y": 3,
+    },
+    "similarity": 0.5,
   },
 ]
 `;
