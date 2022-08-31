@@ -1,9 +1,9 @@
 import { Program } from './Program'
 import { Dimensions, WaldoTexture } from '../types'
 
-import { readFileSync } from 'fs'
-import { join as joinPaths } from 'path'
-const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/averageSimilarities.fs'), 'utf8')
+import fs from 'fs'
+import path from 'path'
+const fragShaderSource = fs.readFileSync(path.join(__dirname, './shaders/averageSimilarities.fs'), 'utf8')
 
 export class AverageSimilarities extends Program {
   constructor(gl: WebGLRenderingContext) {

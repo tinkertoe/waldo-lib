@@ -2,9 +2,9 @@ import { Program } from './Program'
 import { imageDataToTexture } from './utils'
 import { Region, WaldoImageData, WaldoTexture } from '../types'
 
-import { readFileSync } from 'fs'
-import { join as joinPaths } from 'path'
-const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/cropImage.fs'), 'utf8')
+import fs from 'fs'
+import path from 'path'
+const fragShaderSource = fs.readFileSync(path.join(__dirname, './shaders/cropImage.fs'), 'utf8')
 
 export class CropImage extends Program {
   constructor(gl: WebGLRenderingContext) {
