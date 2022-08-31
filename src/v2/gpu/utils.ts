@@ -1,5 +1,5 @@
 import { Chunk, Dimensions, Point, WaldoTexture, WaldoImageData } from '../types'
-import { createTexture as twglCreateTexture, TextureOptions } from 'twgl.js'
+import { createTexture, TextureOptions } from 'twgl.js'
 
 export function resizeContext(gl: WebGLRenderingContext, width: number, height: number) {
   gl.getExtension('STACKGL_resize_drawingbuffer')?.resize(width, height)
@@ -82,29 +82,26 @@ export function chunk(imageSize: Dimensions, templateSize: Dimensions, maxTextur
   return chunkList
 }
 
-export function commonTextureOptions(gl: WebGLRenderingContext): TextureOptions {
-  return {
-    format: gl.RGBA,
-    internalFormat: gl.RGBA,
-    minMag: gl.NEAREST,
-    wrap: gl.CLAMP_TO_EDGE
-  }
-}
-
 export function imageDataToTexture(gl: WebGLRenderingContext, imageData: WaldoImageData): WaldoTexture {
+  const texture = gl.createTexture() as WebGLTexture
+  gl.bindTexture(gl.TEXTURE_2D, texture)
+
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, imageData.width, imageData.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, imageData.data as Uint8ClampedArray)
+
+  gl.bindTexture(gl.TEXTURE_2D, null)
+
   return {
-    texture: twglCreateTexture(gl, {
-      ...commonTextureOptions(gl),
-      src: imageData.data,
-      type: gl.UNSIGNED_BYTE,
-      width: imageData.width,
-      height: imageData.height
-    }),
+    texture,
     dimensions: {
       w: imageData.width,
       h: imageData.height
     }
   }
+
 }
 
 export function stringifyImageData(imageData: WaldoImageData, includeFullPixel: boolean = false): string {

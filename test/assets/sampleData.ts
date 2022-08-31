@@ -1,4 +1,4 @@
-import { WaldoImageData } from './types'
+import { WaldoImageData } from '../../src/v2/types'
 
 export const image1: WaldoImageData = {
   width: 10,

@@ -1,5 +1,5 @@
-import { Waldo } from './Waldo'
-import { image1 as imageData, template1 as templateData } from './sampleData'
+import { Waldo } from '.'
+import { image1 as imageData, template1 as templateData } from '../../test/assets/sampleData'
 
 
 const waldo = new Waldo()

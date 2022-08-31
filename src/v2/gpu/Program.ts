@@ -8,7 +8,7 @@ import {
   drawBufferInfo,
   setUniforms,
 } from 'twgl.js'
-import { commonTextureOptions, createProgramFromSource, resizeContext, vertShaderSource } from './utils'
+import { createProgramFromSource, resizeContext, vertShaderSource } from './utils'
 import { Dimensions, WaldoTexture } from '../types'
 
 export abstract class Program {
@@ -46,8 +46,11 @@ export abstract class Program {
     // Set new output texture
     this._outputTexture = {
       texture: createTexture(this.gl, {
-        ...commonTextureOptions(this.gl),
+        format: this.gl.RGBA,
+        internalFormat: this.gl.RGBA,
         type: this.gl.FLOAT,
+        minMag: this.gl.NEAREST,
+        wrap: this.gl.CLAMP_TO_EDGE,
         width: d.w,
         height: d.h
       }),

@@ -1,10 +1,10 @@
-import { Waldo } from '../src/index'
-import { image, template } from './assets/sampleImageData'
+import { Waldo } from '../src/v2'
+import { image1 as image, template1 as template } from './assets/sampleData'
 
-test('filteredSimilarities', async () => {
+test('filteredSimilarities', () => {
   const waldo = new Waldo()
-  const result = await waldo.filteredSimilarities(image, template, 51)
+  const result = waldo.filteredSimilarities(image, template, 0.75)
   expect(result).toMatchSnapshot()
 
-  await waldo.destroy()
+  waldo.destroy()
 })
