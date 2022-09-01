@@ -44,7 +44,7 @@ console.log(match)
 /*
 {
   location: { x: 1, y: 1 },
-  similarity: 100,
+  similarity: 1, // Value goes from 0 to 1
 }
 */
 ```
