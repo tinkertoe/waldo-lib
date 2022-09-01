@@ -1,7 +1,9 @@
 import { Program } from './Program'
 import { WaldoImageData, WaldoTexture } from '../types'
 
-import fragShaderSource from 'bundle-text:./shaders/downloadTexture.fs'
+import { readFileSync } from 'node:fs'
+import { join as joinPaths } from 'node:path'
+const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/downloadTexture.fs'), 'utf-8')
 
 export class DownloadTexture extends Program {
   constructor(gl: WebGLRenderingContext) {

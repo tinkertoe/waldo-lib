@@ -1,6 +1,9 @@
 import { Program } from './Program'
 import { WaldoTexture } from '../types'
-import fragShaderSource from 'bundle-text:./shaders/findHighestSimilarities.fs'
+
+import { readFileSync } from 'node:fs'
+import { join as joinPaths } from 'node:path'
+const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/findHighestSimilarities.fs'), 'utf-8')
 
 export class FindHighestSimilarities extends Program {
   constructor(gl: WebGLRenderingContext) {
