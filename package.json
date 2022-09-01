@@ -1,9 +1,8 @@
 {
   "name": "waldo-lib",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "tinkertoe",
   "license": "GPL-3.0-only",
-
   "description": "Javascript library for fast and simple template matching without weird opencv bindings",
   "keywords": [
     "cv",
@@ -19,9 +18,7 @@
   "bugs": {
     "url": "https://github.com/tinkertoe/waldo-lib/issues"
   },
-
   "source": "src/v2/index.ts",
-
   "main": "dist/main.js",
   "module": "dist/module.js",
   "browser": "dist/browser/index.js",
@@ -35,14 +32,12 @@
     }
   },
   "types": "dist/types.d.ts",
-
   "files": [
     "./package.json",
     "./dist",
     "./README.md",
     "./LICENSE.txt"
   ],
-
   "dependencies": {
     "gl": "^5.0.3",
     "twgl.js": "^4.24.0"
@@ -52,15 +47,14 @@
     "@parcel/transformer-typescript-types": "2.7.0",
     "@types/gl": "^4.1.1",
     "@types/jest": "^28.1.6",
+    "gpu.js": "^2.15.2",
     "jest": ">=28.0.0 <29.0.0-0",
     "parcel": "^2.7.0",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.9",
-    "typescript": "^4.7.4",
-    "gpu.js": "^2.15.2"
+    "typescript": "^4.7.4"
   },
-  
   "scripts": {
     "build": "parcel build",
     "test": "jest",
