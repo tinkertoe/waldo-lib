@@ -1,9 +1,6 @@
 import { Program } from './Program'
 import { Dimensions, WaldoTexture } from '../types'
-
-import fs from 'fs'
-import path from 'path'
-const fragShaderSource = fs.readFileSync(path.join(__dirname, './shaders/averageSimilarities.fs'), 'utf8')
+import fragShaderSource from 'bundle-text:./shaders/averageSimilarities.fs'
 
 export class AverageSimilarities extends Program {
   constructor(gl: WebGLRenderingContext) {
