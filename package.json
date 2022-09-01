@@ -64,7 +64,7 @@
   "scripts": {
     "build": "parcel build",
     "test": "jest",
-    "docs": "typedoc ./src/v2/Waldo.ts",
-    "prepublishOnly": "jest && typedoc ./src/v2/Waldo.ts && parcel build"
+    "docs": "typedoc ./src/v2/index.ts",
+    "prepublishOnly": "jest && typedoc ./src/v2/index.ts && parcel build"
   }
 }
