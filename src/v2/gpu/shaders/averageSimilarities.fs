@@ -19,5 +19,5 @@ void main() {
   }
 
   // Calculate the average
-  gl_FragColor = vec4(sum / (u_templateDimensions.x * u_templateDimensions.y));
+  gl_FragColor = vec4(sum / (u_templateDimensions.x * u_templateDimensions.y), 0, 0, 0);
 }

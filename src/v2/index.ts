@@ -1,9 +1,9 @@
 import WebGL from 'gl'
 import * as gpu from './gpu'
 import { imageDataToTexture, chunk } from './gpu/utils'
-import { Chunk, Match, Point, WaldoImageData, WaldoTexture } from './types'
+import { Chunk, Dimensions, Match, Point, WaldoImageData, WaldoTexture } from './types'
 
-// Export types (weird workarround)
+// Export types (weird workarround for parcel bug)
 type _Match = Match
 type _Point = Point
 type _WaldoImageData = WaldoImageData
@@ -100,6 +100,48 @@ export class Waldo {
     })
 
     return matches
+  }
+
+  public verifyMatch(imageData: WaldoImageData, templateData: WaldoImageData, match: Match, similarityMargin: number = 0.05) {
+    const image = imageDataToTexture(this.gl, imageData)
+    const template = imageDataToTexture(this.gl, templateData)
+
+    const chunk: Chunk = {
+      region: {
+        origin: {
+          x: match.location.x,
+          y: match.location.y
+        },
+        dimensions: { w: 1, h: 1 }
+      }
+    }
+
+    chunk.computedSimilarities = this.computeSimilarities.run(image, template, chunk.region)
+    chunk.averagedSimilarities = this.averageSimilarities.run(chunk.computedSimilarities, template.dimensions)
+    const { data } = this.downloadTexture.run(chunk.averagedSimilarities)
+
+  
+    /*
+      Check if provided match location is possible!
+
+      Texture lookup at coordinates that are outside of the actual
+      texture size return the value of the closest coordinate.
+      (Texture doesn't wrap arround but is clamped to the edge)
+
+      Without this check this function could also verify a match that is located outside of the image!
+      (As long as the to be verified similarity value is the same as the acutal similarity value on the edge of the image)
+    */
+    const validDimensions: Dimensions = {
+      w: image.dimensions.w - template.dimensions.w + 1,
+      h: image.dimensions.h - template.dimensions.h + 1
+    }
+
+    if (match.location.x > validDimensions.w || match.location.y > validDimensions.h) {
+      return false
+    }
+
+    // Verify match if difference between recalculated similarity and specified similarity is within 5% (default)
+    return (Math.abs(data[0] - match.similarity) < similarityMargin)
   }
 
   public destroy() {

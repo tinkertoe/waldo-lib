@@ -1,18 +1,34 @@
-// import { Waldo, Match } from '../src/v2'
-// import { image1 as image, template1 as template } from './assets/sampleData'
+import { Waldo, Match } from '../src/v2'
+import { image1, template1, image2, template2 } from './assets/sampleData'
 
-// test('verifyMatch', async () => {
-//   const waldo = new Waldo()
+test('verifyMatch', async () => {
+  const waldo = new Waldo()
 
-//   const validResult = await waldo.highestSimilarity(image, template)
+  const validResult1: Match = {
+    similarity: 1,
+    location: { x: 1, y: 9 }
+  }
 
-//   const falseResult: Match = {
-//     similarity: 100,
-//     location: { x: 2, y: 2 }
-//   }
+  const falseResult1: Match = {
+    similarity: 1,
+    location: { x: 2, y: 2 }
+  }
 
-//   expect(await waldo.verifyMatch(image, template, validResult)).toBe(true)
-//   expect(await waldo.verifyMatch(image, template, falseResult)).toBe(false)
+  expect(waldo.verifyMatch(image1, template1, validResult1)).toBe(true)
+  expect(waldo.verifyMatch(image1, template1, falseResult1)).toBe(false)
 
-//   await waldo.destroy()
-// })
+  const validResult2: Match = {
+    similarity: 1,
+    location: { x: 1, y: 2 }
+  }
+
+  const falseResult2: Match = {
+    similarity: 1,
+    location: { x: 3, y: 0 }
+  }
+
+  expect(waldo.verifyMatch(image2, template2, validResult2)).toBe(true)
+  expect(waldo.verifyMatch(image2, template2, falseResult2)).toBe(false)
+
+  waldo.destroy()
+})
