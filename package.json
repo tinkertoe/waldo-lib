@@ -1,6 +1,6 @@
 {
   "name": "waldo-lib",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "author": "tinkertoe",
   "license": "GPL-3.0-only",
   "description": "Javascript library for fast and simple template matching without weird opencv bindings",
