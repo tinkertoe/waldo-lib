@@ -1,9 +1,11 @@
-import WebGL from 'gl'
 import * as gpu from './gpu/index'
 import { imageDataToTexture, chunk } from './gpu/utils'
 import { Chunk, Dimensions, Match, Point, WaldoImageData, WaldoTexture } from './types'
 
-export { Match, Point, WaldoImageData }
+type _Match = Match
+type _Point = Point
+type _WaldoImageData = WaldoImageData
+export { _Match as Match, _Point as Point, _WaldoImageData as WaldoImageData }
 
 export class Waldo {
   private gl: WebGLRenderingContext
@@ -15,13 +17,8 @@ export class Waldo {
   
   private downloadTexture: gpu.DownloadTexture
 
-  constructor() {
-    this.gl = WebGL(1, 1, {
-      depth: false,
-      antialias: false,
-      powerPreference: 'high-performance',
-      stencil: false
-    })
+  constructor(gl: WebGLRenderingContext) {
+    this.gl = gl
     this.gl.getExtension('OES_texture_float')
     
     this.computeSimilarities = new gpu.ComputeSimilarities(this.gl)
@@ -147,5 +144,8 @@ export class Waldo {
     this.findHighestSimilarity.destroy()
     this.downloadTexture.destroy()
     this.gl.getExtension('WEBGL_lose_context')?.loseContext()
+    if (this.gl.canvas !== undefined) {
+      this.gl.canvas.remove()
+    }
   }
 }

@@ -1,8 +1,9 @@
-import { Waldo, Match } from '../src/v2'
+import { Waldo, Match } from '../src/v2/index'
 import { image1, template1, image2, template2 } from './assets/sampleData'
+import WebGL from 'gl'
 
 test('verifyMatch', async () => {
-  const waldo = new Waldo()
+  const waldo = new Waldo(WebGL(1, 1))
 
   const validResult1: Match = {
     similarity: 1,

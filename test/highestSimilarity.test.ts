@@ -1,9 +1,9 @@
-import { Waldo } from '../src/v2'
+import { Waldo } from '../src/v2/index'
 import { image1, template1, image2, template2 } from './assets/sampleData'
-
+import WebGL from 'gl'
 
 test('highestSimilarity', () => {
-  const waldo = new Waldo()
+  const waldo = new Waldo(WebGL(1, 1))
 
   const result1 = waldo.highestSimilarity(image1, template1)
   expect(result1.location).toEqual({ x: 1, y: 9 })

@@ -1,8 +1,9 @@
-import { Waldo } from '../src/v2'
+import { Waldo } from '../src/v2/index'
 import { image1, template1, image2, template2 } from './assets/sampleData'
+import WebGL from 'gl'
 
 test('filteredSimilarities', () => {
-  const waldo = new Waldo()
+  const waldo = new Waldo(WebGL(1, 1))
 
   const result1 = waldo.filteredSimilarities(image1, template1, 0.5)
   expect(result1).toMatchSnapshot('result1')

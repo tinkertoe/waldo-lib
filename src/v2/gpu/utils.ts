@@ -1,8 +1,13 @@
 import { Chunk, Dimensions, Point, WaldoTexture, WaldoImageData } from '../types'
-import { createTexture, TextureOptions } from 'twgl.js'
 
 export function resizeContext(gl: WebGLRenderingContext, width: number, height: number) {
+  if (gl.canvas !== undefined) {
+    gl.canvas.width = width
+    gl.canvas.height = height
+  }
+
   gl.getExtension('STACKGL_resize_drawingbuffer')?.resize(width, height)
+  
   gl.viewport(0, 0, width, height)
   gl.clearColor(0, 0, 0, 0)
   gl.clear(gl.COLOR_BUFFER_BIT)
