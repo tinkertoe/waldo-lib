@@ -9,13 +9,12 @@ export { _Match as Match, _Point as Point, _WaldoImageData as WaldoImageData }
 
 export class Waldo {
   private gl: WebGLRenderingContext
-
   private computeSimilarities: gpu.ComputeSimilarities
   private averageSimilarities: gpu.AverageSimilarities
   private findHighestSimilarities: gpu.FindHighestSimilarities
   private findHighestSimilarity: gpu.FindHighestSimilarity
-  
   private downloadTexture: gpu.DownloadTexture
+  private _glLocked: boolean = false
 
   constructor(gl: WebGLRenderingContext) {
     this.gl = gl
@@ -27,6 +26,24 @@ export class Waldo {
     this.findHighestSimilarity = new gpu.FindHighestSimilarity(this.gl)
 
     this.downloadTexture = new gpu.DownloadTexture(this.gl)
+  }
+
+  private lockGl(): Promise<boolean> {
+    // Wait for unlock, then lock
+    const poll = (resolve) => {
+      if (!this._glLocked) {
+        this._glLocked = true
+        resolve(this._glLocked)
+      } else {
+        // console.warn('GL is locked, retrying in 10ms')
+        setTimeout(() => { poll(resolve) }, 10)
+      }
+    }
+    return new Promise(poll)
+  }
+
+  private unlockGl() {
+    this._glLocked = false
   }
 
   private highestSimilarities(imageData: WaldoImageData, templateData: WaldoImageData): Chunk[] {
@@ -47,7 +64,9 @@ export class Waldo {
     return chunks
   }
 
-  public highestSimilarity(imageData: WaldoImageData, templateData: WaldoImageData): Match {
+  public async highestSimilarity(imageData: WaldoImageData, templateData: WaldoImageData): Promise<Match> {
+    await this.lockGl()
+
     const chunks: Chunk[] = this.highestSimilarities(imageData, templateData)
 
     let highestSimilarityValue = 0
@@ -66,13 +85,17 @@ export class Waldo {
       }
     })
 
+    this.unlockGl()
+
     return {
       location: highestSimilarityLocation,
       similarity: highestSimilarityValue
     }
   }
 
-  public filteredSimilarities(imageData: WaldoImageData, templateData: WaldoImageData, minSimilarity: number): Match[] {
+  public async filteredSimilarities(imageData: WaldoImageData, templateData: WaldoImageData, minSimilarity: number): Promise<Match[]> {
+    await this.lockGl()
+
     const chunks: Chunk[] = this.highestSimilarities(imageData, templateData)
     const matches: Match[] = []
 
@@ -92,10 +115,13 @@ export class Waldo {
       }
     })
 
+    this.unlockGl()
     return matches
   }
 
-  public verifyMatch(imageData: WaldoImageData, templateData: WaldoImageData, match: Match, similarityMargin: number = 0.05) {
+  public async verifyMatch(imageData: WaldoImageData, templateData: WaldoImageData, match: Match, similarityMargin: number = 0.05): Promise<boolean> {
+    await this.lockGl()
+
     const image = imageDataToTexture(this.gl, imageData)
     const template = imageDataToTexture(this.gl, templateData)
 
@@ -113,6 +139,7 @@ export class Waldo {
     chunk.averagedSimilarities = this.averageSimilarities.run(chunk.computedSimilarities, template.dimensions)
     const { data } = this.downloadTexture.run(chunk.averagedSimilarities)
 
+    this.unlockGl()
   
     /*
       Check if provided match location is possible!
@@ -137,7 +164,7 @@ export class Waldo {
     return (Math.abs(data[0] - match.similarity) < similarityMargin)
   }
 
-  public destroy() {
+  public async destroy() {
     this.computeSimilarities.destroy()
     this.averageSimilarities.destroy()
     this.findHighestSimilarities.destroy()

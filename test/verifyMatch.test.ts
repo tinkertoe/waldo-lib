@@ -15,8 +15,8 @@ test('verifyMatch', async () => {
     location: { x: 2, y: 2 }
   }
 
-  expect(waldo.verifyMatch(image1, template1, validResult1)).toBe(true)
-  expect(waldo.verifyMatch(image1, template1, falseResult1)).toBe(false)
+  expect(await waldo.verifyMatch(image1, template1, validResult1)).toBe(true)
+  expect(await waldo.verifyMatch(image1, template1, falseResult1)).toBe(false)
 
   const validResult2: Match = {
     similarity: 1,
@@ -28,8 +28,8 @@ test('verifyMatch', async () => {
     location: { x: 3, y: 0 }
   }
 
-  expect(waldo.verifyMatch(image2, template2, validResult2)).toBe(true)
-  expect(waldo.verifyMatch(image2, template2, falseResult2)).toBe(false)
+  expect(await waldo.verifyMatch(image2, template2, validResult2)).toBe(true)
+  expect(await waldo.verifyMatch(image2, template2, falseResult2)).toBe(false)
 
-  waldo.destroy()
+  await waldo.destroy()
 })
