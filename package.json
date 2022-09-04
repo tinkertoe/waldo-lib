@@ -18,20 +18,6 @@
   "bugs": {
     "url": "https://github.com/tinkertoe/waldo-lib/issues"
   },
-  "source": "src/v2/index.ts",
-  "main": "dist/main.js",
-  "module": "dist/module.js",
-  "browser": "dist/browser/index.js",
-  "targets": {
-    "browser": {
-      "context": "browser",
-      "outputFormat": "esmodule",
-      "isLibrary": true,
-      "optimize": true,
-      "includeNodeModules": true
-    }
-  },
-  "types": "dist/types.d.ts",
   "files": [
     "./package.json",
     "./dist",
@@ -43,17 +29,23 @@
     "twgl.js": "^4.24.0"
   },
   "devDependencies": {
-    "@parcel/packager-ts": "2.7.0",
-    "@parcel/transformer-inline-string": "2.7.0",
-    "@parcel/transformer-typescript-types": "2.7.0",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.4.0",
     "@types/gl": "^4.1.1",
     "@types/jest": "^28.1.6",
     "@types/node": "^18.7.14",
+    "brfs": "^2.0.2",
     "gpu.js": "^2.15.2",
     "jest": ">=28.0.0 <29.0.0-0",
-    "parcel": "^2.7.0",
+    "rollup": "^2.79.0",
+    "rollup-plugin-brfs": "^1.0.1",
+    "rollup-plugin-browserify-transform": "^1.0.1",
+    "rollup-plugin-polyfill-node": "^0.10.2",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1",
+    "tslib": "^2.4.0",
     "typedoc": "^0.23.9",
     "typescript": "^4.7.4"
   },

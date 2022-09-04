@@ -1,13 +1,9 @@
 import WebGL from 'gl'
-import * as gpu from './gpu'
+import * as gpu from './gpu/index'
 import { imageDataToTexture, chunk } from './gpu/utils'
 import { Chunk, Dimensions, Match, Point, WaldoImageData, WaldoTexture } from './types'
 
-// Export types (weird workarround for parcel bug)
-type _Match = Match
-type _Point = Point
-type _WaldoImageData = WaldoImageData
-export { _Match as Match, _Point as Point, _WaldoImageData as WaldoImageData }
+export { Match, Point, WaldoImageData }
 
 export class Waldo {
   private gl: WebGLRenderingContext

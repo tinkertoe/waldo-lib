@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "CommonJS",
-    "strict": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-  },
-  "include": ["src/**/*"]
+    "target": "ES2015",
+    "esModuleInterop": true
+  }
 }

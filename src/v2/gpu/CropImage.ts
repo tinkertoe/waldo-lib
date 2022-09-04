@@ -2,9 +2,18 @@ import { Program } from './Program'
 import { imageDataToTexture } from './utils'
 import { Region, WaldoImageData, WaldoTexture } from '../types'
 
-import { readFileSync } from 'node:fs'
-import { join as joinPaths } from 'node:path'
-const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/cropImage.fs'), 'utf-8')
+const fragShaderSource = `
+  precision lowp float;
+
+  uniform sampler2D u_inputTexture;
+  uniform vec2 u_inputDimensions;
+  uniform vec2 u_cropOrigin;
+
+  void main() {
+    vec2 inputCoord = u_cropOrigin.xy + gl_FragCoord.xy;
+    gl_FragColor = texture2D(u_inputTexture, inputCoord/u_inputDimensions);
+  }
+`
 
 export class CropImage extends Program {
   constructor(gl: WebGLRenderingContext) {

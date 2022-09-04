@@ -1,9 +1,16 @@
 import { Program } from './Program'
 import { WaldoImageData, WaldoTexture } from '../types'
 
-import { readFileSync } from 'node:fs'
-import { join as joinPaths } from 'node:path'
-const fragShaderSource = readFileSync(joinPaths(__dirname, './shaders/downloadTexture.fs'), 'utf-8')
+const fragShaderSource = `
+  precision lowp float;
+
+  uniform sampler2D u_texture;
+  uniform vec2 u_textureDimensions;
+
+  void main() {
+    gl_FragColor = texture2D(u_texture, gl_FragCoord.xy/u_textureDimensions);
+  }
+`
 
 export class DownloadTexture extends Program {
   constructor(gl: WebGLRenderingContext) {
