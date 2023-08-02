@@ -28,21 +28,21 @@ export class Waldo {
     this.downloadTexture = new gpu.DownloadTexture(this.gl)
   }
 
-  private lockGl(): Promise<boolean> {
+  private lockGl(): Promise<void> {
     // Wait for unlock, then lock
-    const poll = (resolve) => {
+    const poll = (resolve: () => void) => {
       if (!this._glLocked) {
         this._glLocked = true
-        resolve(this._glLocked)
+        resolve()
       } else {
-        // console.warn('GL is locked, retrying in 10ms')
+        // GL is locked, retrying in 10ms
         setTimeout(() => { poll(resolve) }, 10)
       }
     }
     return new Promise(poll)
   }
 
-  private unlockGl() {
+  private unlockGl(): void {
     this._glLocked = false
   }
 
@@ -170,9 +170,7 @@ export class Waldo {
     this.findHighestSimilarities.destroy()
     this.findHighestSimilarity.destroy()
     this.downloadTexture.destroy()
-    this.gl.getExtension('WEBGL_lose_context')?.loseContext()
-    if (this.gl.canvas !== undefined) {
-      this.gl.canvas.remove()
-    }
+    this.gl.getExtension('WEBGL_lose_context')?.loseContext();
+    (this.gl.canvas as HTMLCanvasElement)?.remove()
   }
 }
